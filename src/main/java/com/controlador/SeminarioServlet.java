@@ -23,26 +23,27 @@ public class SeminarioServlet extends HttpServlet {
         HttpSession ses = request.getSession();
         ArrayList<Inscripcion> lista = (ArrayList<Inscripcion>) ses.getAttribute("listaInscripciones");
 
+        int id, indice;
         switch (op) {
             case "nuevo":
                 request.setAttribute("inscripcionSession", new Inscripcion());
                 request.getRequestDispatcher("formulario.jsp").forward(request, response);
                 break;
             case "editar":
-                int id = Integer.parseInt(request.getParameter("id"));
-                int indice = obtenerIndice(request, id);
+                id = Integer.parseInt(request.getParameter("id"));
+                indice = obtenerIndice(request, id);
                 Inscripcion inscripcion = lista.get(indice);
                 request.setAttribute("inscripcionSession", inscripcion);
                 request.getRequestDispatcher("formulario.jsp").forward(request, response);
                 break;
             case "eliminar":
-                //int id = Integer.parseInt(request.getParameter("id"));
-                //int indice = obtenerIndice(request, id);
-//                if (pos >= 0) {
-//                    lista.remove(pos);
-//                }
-//                request.setAttribute("listacal", lista);
-//                response.sendRedirect("index.jsp");
+                id = Integer.parseInt(request.getParameter("id"));
+                indice = obtenerIndice(request, id);
+                if (indice >= 0) {
+                    lista.remove(indice);
+                }
+                request.setAttribute("listaInscripciones", lista);
+                response.sendRedirect("index.jsp");
                 break;
             default:
                 throw new AssertionError();

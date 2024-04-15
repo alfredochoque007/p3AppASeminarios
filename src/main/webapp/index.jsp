@@ -52,7 +52,12 @@
                         %>  
                     </td>
                     <td><a href="SeminarioServlet?op=editar&id=<%= item.getId() %>">Editar</a></td>
-                    <td><a href="SeminarioServlet?op=editar&id=<%= item.getId() %>">Eliminar</a></td>
+                    <td>
+                        <a href="SeminarioServlet?op=eliminar&id=<%= item.getId() %>"
+                           onclick="return(confirm('Esta seguro que desea eliminar este registro??'))">
+                            Eliminar
+                        </a>
+                    </td>
                 </tr>
                 <%
                     }
