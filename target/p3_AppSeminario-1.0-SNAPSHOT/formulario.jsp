@@ -18,7 +18,7 @@
         <form action="SeminarioServlet" method="post">
             <div style="border: 1px solid #000">
                 <div>
-                    <input type="text" name="id" value="<%= req.getId() %>"/>
+                    <input type="number" name="id" value="<%= req.getId() %>"/>
                 </div>
                 <div>
                     <label>Fecha:</label>
@@ -39,7 +39,7 @@
                            >
                 </div>
                 <div>
-                    <label>Turno: <%= req.getTurno() %></label>
+                    <label>Turno:</label>
                     <div>
                         <input type="radio" name="turno" value="Mañana" 
                                <%= (req.getTurno() != null && req.getTurno().equals("Mañana")) ? "checked" : "" %> 

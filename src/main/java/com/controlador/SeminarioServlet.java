@@ -30,14 +30,14 @@ public class SeminarioServlet extends HttpServlet {
                 break;
             case "editar":
                 int id = Integer.parseInt(request.getParameter("id"));
-                int indice = buscarPorIndice(request, id);
+                int indice = obtenerIndice(request, id);
                 Inscripcion inscripcion = lista.get(indice);
                 request.setAttribute("inscripcionSession", inscripcion);
                 request.getRequestDispatcher("formulario.jsp").forward(request, response);
                 break;
             case "eliminar":
-//                id = Integer.parseInt(request.getParameter("id"));
-//                pos = buscarPorIndice(request, id);
+                //int id = Integer.parseInt(request.getParameter("id"));
+                //int indice = obtenerIndice(request, id);
 //                if (pos >= 0) {
 //                    lista.remove(pos);
 //                }
@@ -57,7 +57,7 @@ public class SeminarioServlet extends HttpServlet {
         ArrayList<Inscripcion> listaInscripciones = (ArrayList<Inscripcion>) sesion.getAttribute("listaInscripciones");
 
         //recupera los datos de la Inscripcion
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
         String fecha = request.getParameter("fecha");
         String nombre = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
@@ -70,25 +70,27 @@ public class SeminarioServlet extends HttpServlet {
 
         //Construye el Objeto con los datos
         Inscripcion inscripcion = new Inscripcion();
-        inscripcion.setId(obtenerId(request));
         inscripcion.setFecha(fecha);
         inscripcion.setNombre(nombre);
         inscripcion.setApellidos(apellidos);
         inscripcion.setTurno(turno);
         inscripcion.setSeminarios(listSeminarios);
 
-        listaInscripciones.add(inscripcion);
-
-        System.out.println(fecha);
-        System.out.println(nombre);
-        System.out.println(apellidos);
-        System.out.println(turno);
-
+        if (id != 0) { //edita
+            inscripcion.setId(id);
+            int indice = obtenerIndice(request, id);// devuelve el indice de ubicacion del objeto dentro de arrayList
+            System.out.println("id editar:  " + indice);
+            listaInscripciones.set(indice, inscripcion); // actualiza la informacion dentro arrayList
+        } else { //crear
+            inscripcion.setId(obtenerId(request));
+            listaInscripciones.add(inscripcion);
+            System.out.println("id crear:  " + inscripcion.getId());
+        }
         request.setAttribute("listaInscripciones", listaInscripciones);
         response.sendRedirect("index.jsp");
     }
 
-    public int buscarPorIndice(HttpServletRequest request, int id) {
+    public int obtenerIndice(HttpServletRequest request, int id) {
         HttpSession ses = request.getSession();
         ArrayList<Inscripcion> lista = (ArrayList<Inscripcion>) ses.getAttribute("listaInscripciones");
 
