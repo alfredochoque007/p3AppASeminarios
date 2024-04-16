@@ -80,12 +80,10 @@ public class SeminarioServlet extends HttpServlet {
         if (id != 0) { //edita
             inscripcion.setId(id);
             int indice = obtenerIndice(request, id);// devuelve el indice de ubicacion del objeto dentro de arrayList
-            System.out.println("id editar:  " + indice);
             listaInscripciones.set(indice, inscripcion); // actualiza la informacion dentro arrayList
         } else { //crear
             inscripcion.setId(obtenerId(request));
             listaInscripciones.add(inscripcion);
-            System.out.println("id crear:  " + inscripcion.getId());
         }
         request.setAttribute("listaInscripciones", listaInscripciones);
         response.sendRedirect("index.jsp");
